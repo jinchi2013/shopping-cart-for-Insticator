@@ -1,12 +1,19 @@
 import { combineReducers } from 'redux'
-import { REQUEST_PRODUCTS, RECEIVE_PRODUCTS } from '../actionConstants/ActionsConstants'
+import { REQUEST_PRODUCTS, RECEIVE_PRODUCTS, REQUEST_PRODUCTS_FAIL } from '../actionConstants/ActionsConstants'
 
 const initial_all_products = {
 	isRequesting: false,
-	requestFailed: false
+	requestFailed: false,
 }
 
-const allProducts = (state=initial_all_products, action) => {
+const productsMapById = (products) => (
+	products.reduce((map, product)=>{
+		map[product.id] = product
+		return map
+	}, {})
+)
+
+const productsIdMap = (state=initial_all_products, action) => {
 	switch (action.type) {
 		case REQUEST_PRODUCTS:
 			return {
@@ -16,7 +23,8 @@ const allProducts = (state=initial_all_products, action) => {
 		case RECEIVE_PRODUCTS:
 			return {
 				...state,
-				products: action.products
+				...productsMapById(action.products),
+				isRequesting: false
 			}
 		case REQUEST_PRODUCTS_FAIL:
 			return {
@@ -29,6 +37,27 @@ const allProducts = (state=initial_all_products, action) => {
 	}
 }
 
+const productsArrayById = (products) => {
+	return Object.keys(productsMapById(products))
+}
+
+const productsIdArray = (state=[], action) => {
+	switch (action.type) {
+		case RECEIVE_PRODUCTS:
+				return productsArrayById(action.products)
+		default:
+			return state
+	}
+}
+
 export default combineReducers({
-	allProducts
+	productsIdMap,
+	productsIdArray
 })
+
+export const getProduct = (state, id) => 
+	state.productsIdMap[id]
+
+export const getAllProducts = (state) =>
+	state.productsIdArray.map(id => getProduct(state, id))
+
