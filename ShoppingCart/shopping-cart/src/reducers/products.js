@@ -34,7 +34,8 @@ const productsIdMap = (state=initial_all_products, action) => {
 			return {
 				...state,
 				...productsMapById(action.products),
-				isRequesting: false
+				isRequesting: false,
+				requestFailed: false
 			}
 		case REQUEST_PRODUCTS_FAIL:
 			return {
@@ -79,7 +80,7 @@ const productsArrayById = (products) => {
 const productsIdArray = (state=[], action) => {
 	switch (action.type) {
 		case RECEIVE_PRODUCTS:
-				return productsArrayById(action.products)
+			return productsArrayById(action.products)
 		default:
 			return state
 	}

@@ -1,109 +1,192 @@
 import products from './products'
 
 describe('products reducers', ()=>{
-	describe('all products reducer', ()=>{
-		const initial_state = {
-				allProducts: {
-					isRequesting: false,
-					requestFailed: false
-				}
-			}
+	it('resolve REQUEST_PRODUCTS action', ()=>{
 
-		it('should resolve the payload of REQUEST_PRODUCTS action', ()=>{
-			const requestAction = {
-				type: 'REQUEST_PRODUCTS'
-			}
+		const action = {
+			type: 'REQUEST_PRODUCTS'
+		}
 
-			expect(products(initial_state, requestAction)).toEqual({
-				allProducts: {
-					isRequesting: true,
-					requestFailed: false
+		expect(products({}, action)).toEqual({
+			productsIdMap: {
+				isRequesting: true,
+				requestFailed: false,
+			},
+			productsIdArray: []
+		})
+	})
+
+	it('resovle RECEIVE_PRODUCTS action', ()=>{
+		const action = {
+			type: 'RECEIVE_PRODUCTS',
+			products: [
+				{
+					id: '1',
+					itemName: 'p1'
+				},
+				{
+					id: '2',
+					itemName: 'p2'
 				}
-			})
+			]
+		}
+
+		const state = {
+			productsIdMap: {
+				isRequesting: true,
+				requestFailed: false
+			},
+			productsIdArray: []
+		}
+
+		expect(products(state, action)).toEqual({
+			productsIdMap: {
+				'1': {
+					id: '1',
+					itemName: 'p1'
+				},
+				'2': {
+					id: '2',
+					itemName: 'p2'
+				},
+				isRequesting: false,
+				requestFailed: false
+			},
+			productsIdArray: ['1','2']
 		})
 
-		it('should resolve the payload of RECEIVE_PRODUCTS action', ()=>{
-			const receiveAction = {
-				type: 'RECEIVE_PRODUCTS',
-				products: [
-					{
-					    "itemName": "banana",
-					    "imgSrc": "https://tinyurl.com/zcdrymz",
-					    "price": 1.25,
-					    "quantityRemaining": 10,
-					    "id": 1
-					},
-					{
-					    "itemName": "apple",
-					    "imgSrc": "https://tinyurl.com/lg5rj5z",
-					    "price": 2.50,
-					    "quantityRemaining": 5,
-					    "id": 2
-					}
-				]
-			}
+	})
 
-			expect(products(initial_state, receiveAction)).toEqual({
-				allProducts: {
-					isRequesting: false,
-					requestFailed: false,
-					products: [
-						{
-						    "itemName": "banana",
-						    "imgSrc": "https://tinyurl.com/zcdrymz",
-						    "price": 1.25,
-						    "quantityRemaining": 10,
-						    "id": 1
-						},
-						{
-						    "itemName": "apple",
-						    "imgSrc": "https://tinyurl.com/lg5rj5z",
-						    "price": 2.50,
-						    "quantityRemaining": 5,
-						    "id": 2
-						}
-					]
-				}
-			})
+	it('resolve UPDATE_PRODUCT_QUANTITY and INCREASE_PRODUCT_QUANTITY', ()=>{
+		const action1 = {
+			productId: "1",
+			type: 'UPDATE_PRODUCT_QUANTITY'
+		}
+
+		const action2 = {
+			productId: "2",
+			type: 'INCREASE_PRODUCT_QUANTITY'
+		}
+
+		const state = {
+			productsIdMap: {
+				'1': {
+					id: '1',
+					itemName: 'p1',
+					quantityRemaining: 3
+				},
+				'2': {
+					id: '2',
+					itemName: 'p2',
+					quantityRemaining: 5
+				},
+				isRequesting: false,
+				requestFailed: false
+			},
+			productsIdArray: ['1','2']
+		}
+
+		expect(products(state, action1)).toEqual({
+			productsIdMap: {
+				'1': {
+					id: '1',
+					itemName: 'p1',
+					quantityRemaining: 2
+				},
+				'2': {
+					id: '2',
+					itemName: 'p2',
+					quantityRemaining: 5
+				},
+				isRequesting: false,
+				requestFailed: false
+			},
+			productsIdArray: ['1','2']
 		})
 
-		it('shoud resolve the payload of REQUEST_PRODUCTS_FAIL', ()=>{
-			const requestProductsFailAction = {
-				type: 'REQUEST_PRODUCTS_FAIL',
-				error: "error"
-			}
+		expect(products(state, action2)).toEqual({
+			productsIdMap: {
+				'1': {
+					id: '1',
+					itemName: 'p1',
+					quantityRemaining: 3
+				},
+				'2': {
+					id: '2',
+					itemName: 'p2',
+					quantityRemaining: 4
+				},
+				isRequesting: false,
+				requestFailed: false
+			},
+			productsIdArray: ['1','2']
+		})
+	})
 
-			const state = {
-				allProducts: {
-					isRequesting: false,
-					requestFailed: false,
-					products: [
-						{
-						    "itemName": "banana",
-						    "imgSrc": "https://tinyurl.com/zcdrymz",
-						    "price": 1.25,
-						    "quantityRemaining": 10,
-						    "id": 1
-						},
-						{
-						    "itemName": "apple",
-						    "imgSrc": "https://tinyurl.com/lg5rj5z",
-						    "price": 2.50,
-						    "quantityRemaining": 5,
-						    "id": 2
-						}
-					]
-				}
-			}
+	it('resovle DECREASE_PRODUCT_QUANTITY action', ()=> {
+		const action = {
+			type: 'DECREASE_PRODUCT_QUANTITY',
+			productId: '1'
+		}
 
-			expect(products(state, requestProductsFailAction)).toEqual({
-				allProducts: {
-					isRequesting: false,
-					requestFailed: true,
-					products: []
-				}
-			})
+		const state = {
+			productsIdMap: {
+				'1': {
+					id: '1',
+					itemName: 'p1',
+					quantityRemaining: 3
+				},
+				isRequesting: false,
+				requestFailed: false
+			},
+			productsIdArray: ['1']
+		}
 
+		expect(products(state, action)).toEqual({
+			productsIdMap: {
+				'1': {
+					id: '1',
+					itemName: 'p1',
+					quantityRemaining: 4
+				},
+				isRequesting: false,
+				requestFailed: false
+			},
+			productsIdArray: ['1']
+		})
+	})
+
+	it('resolve REMOVE_PRODUCT_IN_CART action', () => {
+		const action = {
+			type: 'REMOVE_PRODUCT_IN_CART',
+			productId: '1',
+			quantity: 10
+		}
+
+		const state = {
+			productsIdMap: {
+				'1': {
+					id: '1',
+					itemName: 'p1',
+					quantityRemaining: 3
+				},
+				isRequesting: false,
+				requestFailed: false
+			},
+			productsIdArray: ['1']
+		}
+
+		expect(products(state, action)).toEqual({
+			productsIdMap: {
+				'1': {
+					id: '1',
+					itemName: 'p1',
+					quantityRemaining: 13
+				},
+				isRequesting: false,
+				requestFailed: false
+			},
+			productsIdArray: ['1']
 		})
 	})
 })
