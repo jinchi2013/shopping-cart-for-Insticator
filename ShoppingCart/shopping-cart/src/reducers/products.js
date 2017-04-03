@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux'
-import { REQUEST_PRODUCTS, RECEIVE_PRODUCTS, REQUEST_PRODUCTS_FAIL } from '../actionConstants/ActionsConstants'
+import { 
+	REQUEST_PRODUCTS, 
+	RECEIVE_PRODUCTS, 
+	REQUEST_PRODUCTS_FAIL,
+	UPDATE_PRODUCT_QUANTITY,
+	REMOVE_PRODUCT_IN_CART } from '../actionConstants/ActionsConstants'
 
 const initial_all_products = {
 	isRequesting: false,
@@ -14,6 +19,9 @@ const productsMapById = (products) => (
 )
 
 const productsIdMap = (state=initial_all_products, action) => {
+	const { productId, quantity } = action
+	const product = state[productId] 
+
 	switch (action.type) {
 		case REQUEST_PRODUCTS:
 			return {
@@ -31,6 +39,22 @@ const productsIdMap = (state=initial_all_products, action) => {
 				...state,
 				products: [],
 				requestFailed: true
+			}
+		case UPDATE_PRODUCT_QUANTITY:
+			return {
+				...state,
+				[productId]: {
+					...product,
+					quantityRemaining: product.quantityRemaining - 1
+				}
+			}
+		case REMOVE_PRODUCT_IN_CART:
+			return {
+				...state,
+				[productId]: {
+					...product,
+					quantityRemaining: product.quantityRemaining + quantity
+				}
 			}
 		default:
 			return state
