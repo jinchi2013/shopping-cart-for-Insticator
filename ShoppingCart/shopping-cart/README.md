@@ -3,5 +3,5 @@
 # npm install to get all the dependencys
 
 # whole project is done with [Create React App](https://github.com/facebookincubator/create-react-app)
-### `npm start` [http://localhost:3000](http://localhost:3000)
-### `npm test`
+### `npm start` to run and view at [http://localhost:3000](http://localhost:3000)
+### `npm test` 
