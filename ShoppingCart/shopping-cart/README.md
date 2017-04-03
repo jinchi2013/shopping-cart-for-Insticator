@@ -4,4 +4,4 @@
 
 # whole project is done with [Create React App](https://github.com/facebookincubator/create-react-app)
 ### `npm start` to run and view at [http://localhost:3000](http://localhost:3000)
-### `npm test` 
+### `npm test` to run the unit test for reducers
