@@ -107,8 +107,7 @@ export const decreaseProductQuantity = (productId, quantity) => (dispatch, getSt
 
 export const increaseProductQuantity = (productId, quantity) => ({
 	type: actionTypes.INCREASE_PRODUCT_QUANTITY,
-	productId,
-	quantity
+	productId
 })
 
 // End of decrease and increase item in the cart =========================

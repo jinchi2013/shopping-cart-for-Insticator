@@ -1,4 +1,4 @@
-import products from './products'
+import products, * as fromProducts from './products'
 
 describe('products reducers', ()=>{
 	it('resolve REQUEST_PRODUCTS action', ()=>{
@@ -188,5 +188,50 @@ describe('products reducers', ()=>{
 			},
 			productsIdArray: ['1']
 		})
+	})
+})
+
+describe('selectors', () => {
+	it('should get one product by its id', ()=> {
+		const state = {
+			productsIdMap: {
+				'1': {
+					id: '1',
+					name: 'p1'
+				}
+			}
+		}
+
+		expect(fromProducts.getProduct(state, 1)).toEqual({
+			id: '1',
+			name: 'p1'
+		})
+	})
+
+	it('should get all product in array', ()=>{
+		const state = {
+			productsIdMap: {
+				'1': {
+					id: '1',
+					name: 'p1'
+				},
+				'2': {
+					id: '2',
+					name: 'p2'
+				}
+			},
+			productsIdArray: ['1', '2']
+		}
+
+		expect(fromProducts.getAllProducts(state)).toEqual([
+			{
+				id: '1',
+				name: 'p1'	
+			},
+			{
+				id: '2',
+				name: 'p2'
+			}
+		])
 	})
 })
