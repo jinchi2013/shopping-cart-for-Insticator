@@ -43,6 +43,7 @@ ProductInTheCart.PropTypes = {
 			imgSrc: PropTypes.string.isRequired,
 			itemName: PropTypes.string.isRequired,
 			price: PropTypes.number.isRequired,
+			quantityRemaining: PropTypes.number.isRequired,
 			quantity: PropTypes.number.isRequired
 		}),
 	removeProductInCart: PropTypes.func.isRequired

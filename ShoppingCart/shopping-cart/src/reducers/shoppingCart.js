@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import {
 	ADD_TO_CART,
 	REQUEST_CHECKOUT,
-	REMOVE_PRODUCT_IN_CART
+	REMOVE_PRODUCT_IN_CART,
+	INCREASE_PRODUCT_QUANTITY
 } from '../actionConstants/ActionsConstants'
 
 const addedProductsId = (state=[], action) => {
@@ -40,6 +41,11 @@ const addedProductsQuantity = (state={}, action) => {
 							}
 							return newState
 						}, {})
+		case INCREASE_PRODUCT_QUANTITY:
+			return {
+				...state,
+				[productId]: state[productId] + 1
+			}
 		case REQUEST_CHECKOUT:
 			return {}
 		default:
