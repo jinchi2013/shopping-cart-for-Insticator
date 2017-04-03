@@ -5,22 +5,29 @@ import { getAllProducts } from '../reducers/products'
 import { addToCart } from '../actions'
 
 import ProductItem from '../components/ProductItem'
+import Spinner from '../components/utilityComponents/Spinner'
 
-const ProductsList = ({products, isRequesting, addToCart}) => (
-	<section>
-		{
-			!isRequesting ? 
-				products.map(product => (
-					<ProductItem
-						key={product.id}
-						product={product}
-						addToCart={() => addToCart(product.id) }
-					/>
-				)) :
-				null
-		}
-	</section>
-)
+const ProductsList = ({products, isRequesting, addToCart}) => {
+	const style={
+		marginTop: 20
+	}
+
+	return (
+		<section style={style}>
+			{
+				!isRequesting ? 
+					products.map(product => (
+						<ProductItem
+							key={product.id}
+							product={product}
+							addToCart={() => addToCart(product.id) }
+						/>
+					)) :
+					<Spinner/>
+			}
+		</section>
+	)
+}
 
 ProductsList.PropTypes = {
 	products: PropTypes.arrayOf(

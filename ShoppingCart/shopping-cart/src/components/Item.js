@@ -3,6 +3,8 @@ import React, { PropTypes } from 'react'
 const Item = ({imgSrc, itemName, price, quantityRemaining}) => {
 
 	const style={
+		padding: 10,
+
 		imgStyle: {
 			width: '90%',
 			height: 'auto'
@@ -21,7 +23,7 @@ const Item = ({imgSrc, itemName, price, quantityRemaining}) => {
 	}
 
 	return (
-		<div>
+		<div style={style}>
 			<div style={style.imgContainer}>
 				<img src={`${imgSrc}`} alt={itemName} style={style.imgStyle} />
 			</div>

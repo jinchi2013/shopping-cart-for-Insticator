@@ -3,17 +3,34 @@ import React, { PropTypes } from 'react'
 import Item from './Item'
 import ItemAction from './ItemAction'
 
-const ProductItem = ({product, addToCart}) => (
-	<div>
-		<Item 
-			imgSrc={product.imgSrc} 
-			itemName={product.itemName}
-			price={product.price}
-			quantityRemaining={product.quantityRemaining}  
-		/>
-		<ItemAction productId={product.id} addToCart={addToCart}/>
-	</div>
-)
+const ProductItem = ({product, addToCart}) => {
+	const style={
+		padding: 10
+	}
+
+	const {
+		imgSrc,
+		itemName,
+		price,
+		quantityRemaining,
+		id
+	} = product
+
+	return (
+		<div style={style}>
+			<Item 
+				imgSrc={imgSrc} 
+				itemName={itemName}
+				price={price}
+				quantityRemaining={quantityRemaining}  
+			/>
+			<ItemAction 
+				productId={id} 
+				addToCart={addToCart}
+			/>
+		</div>
+	)	
+}
 
 ProductItem.PropTypes = {
 	product: PropTypes.shape({

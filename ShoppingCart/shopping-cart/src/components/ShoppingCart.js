@@ -1,13 +1,24 @@
 import React, { PropTypes } from 'react'
 import ProductInTheCart from './ProductInTheCart'
 
-const ShoppingCart = ({ addedProducts, showShoppingCart, total, requestCheckout, removeProductInCart }) => {
+const ShoppingCart = ({ addedProducts, showShoppingCart, total, requestCheckout, removeProductInCart, decreaseProductQuantity, increaseProductQuantity }) => {
 	const style = {
 		cartContainer: {
 			display: showShoppingCart ? 'block' : 'none',
-			position: 'absolute',
-			width: '90%',
-			background: 'white'
+			height: '100%',
+			width: '100%',
+			background: 'white',
+			textAlign: 'center'
+		},
+		purchaseButton: {
+			userSelect: 'none',
+			border: 0,
+			backgroundColor: '#00b39d',
+			color: 'white',
+			width: '100%',
+			height: 50,
+			marginTop: 5,
+			fontSize: 15
 		}
 	} 
 
@@ -16,18 +27,20 @@ const ShoppingCart = ({ addedProducts, showShoppingCart, total, requestCheckout,
 			{
 				addedProducts.length === 0 ? 
 
-					<div>There is nothing here!</div> : 
+					<h4>There is nothing here!</h4> : 
 
 					addedProducts.map(addedProduct => 
 						<ProductInTheCart 
 							addedProduct={addedProduct}
 							key={addedProduct.id}
 							removeProductInCart={removeProductInCart}
+							decreaseProductQuantity={decreaseProductQuantity}
+							increaseProductQuantity={increaseProductQuantity}
 						/>
 					)
 			}
 			<div><span>Total: $ </span>{total}</div>
-			<button onClick={requestCheckout}>Purchase</button>
+			<button style={style.purchaseButton} onClick={requestCheckout}>Purchase</button>
 		</div>
 	)
 }
@@ -46,7 +59,9 @@ ShoppingCart.PropTypes = {
 	showShoppingCart: PropTypes.bool.isRequired,
 	total: PropTypes.number.isRequired,
 	requestCheckout: PropTypes.func.isRequired,
-	removeProductInCart: PropTypes.func.isRequired
+	removeProductInCart: PropTypes.func.isRequired,
+	decreaseProductQuantity: PropTypes.func.isRequired,
+	increaseProductQuantity: PropTypes.func.isRequired
 }
 
 export default ShoppingCart

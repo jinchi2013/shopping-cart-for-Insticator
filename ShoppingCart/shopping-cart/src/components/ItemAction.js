@@ -2,10 +2,15 @@ import React, { PropTypes } from 'react'
 
 const ItemAction = ({productId, addToCart}) => {
 	const style = {
-		textAlign: 'center'
+		textAlign: 'center'	,
+		backgroundColor: '#3498db',
+		width: '100%',
+		height: 45,
+		color: 'white',
+		border: 0
 	}
 
-	return <div style={style} onClick={addToCart} >Add To Cart</div>
+	return <button style={style} onClick={addToCart} >Add To Cart</button>
 }
 
 ItemAction.PropTypes = {

@@ -4,6 +4,8 @@ import {
 	RECEIVE_PRODUCTS, 
 	REQUEST_PRODUCTS_FAIL,
 	UPDATE_PRODUCT_QUANTITY,
+	INCREASE_PRODUCT_QUANTITY,
+	DECREASE_PRODUCT_QUANTITY,
 	REMOVE_PRODUCT_IN_CART } from '../actionConstants/ActionsConstants'
 
 const initial_all_products = {
@@ -41,11 +43,20 @@ const productsIdMap = (state=initial_all_products, action) => {
 				requestFailed: true
 			}
 		case UPDATE_PRODUCT_QUANTITY:
+		case INCREASE_PRODUCT_QUANTITY:
 			return {
 				...state,
 				[productId]: {
 					...product,
 					quantityRemaining: product.quantityRemaining - 1
+				}
+			}
+		case DECREASE_PRODUCT_QUANTITY:
+			return {
+				...state,
+				[productId]: {
+					...product,
+					quantityRemaining: product.quantityRemaining + 1
 				}
 			}
 		case REMOVE_PRODUCT_IN_CART:

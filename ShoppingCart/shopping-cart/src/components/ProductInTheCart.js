@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react'
 
-const ProductInTheCart = ({addedProduct, removeProductInCart}) => {
+const ProductInTheCart = ({addedProduct, removeProductInCart, decreaseProductQuantity, increaseProductQuantity}) => {
 	const style={
+		padding: 10,
+		borderBottom: '1px solid rgb(242, 242, 242)',
+
 		imgStyle: {
 			width: 'auto',
 			height: 60
@@ -9,7 +12,12 @@ const ProductInTheCart = ({addedProduct, removeProductInCart}) => {
 		productDetails: {
 			display: 'inline-block',
 			verticalAlign: 'top',
-			fontSize: 12
+			fontSize: 12,
+			width: '35%',
+
+			toggleQuanButton: {
+				fontSize: 15
+			}
 		},
 		imgContainer: {
 			display: 'inline-block',
@@ -18,20 +26,54 @@ const ProductInTheCart = ({addedProduct, removeProductInCart}) => {
 		},
 		label: {
 			textTransform: 'uppercase'
+		},
+		removeProductButton: {
+			width: '100%',
+			backgroundColor: '#e65d4f',
+			border: 0,
+			color: 'white'
 		}
 	}
 
+	const {
+		id,
+		quantity,
+		quantityRemaining,
+		imgSrc,
+		itemName,
+		price
+	} = addedProduct
 
 	return (
-		<div>
+		<div style={style}>
 			<div style={style.imgContainer}>
-				<img src={`${addedProduct.imgSrc}`} alt={addedProduct.itemName} style={style.imgStyle} />
+				<img src={`${imgSrc}`} alt={itemName} style={style.imgStyle} />
 			</div>
 			<div style={style.productDetails}>
-				<div><span style={style.label}>Name: </span>{addedProduct.itemName}</div>
-				<div><span style={style.label}>Price: </span>{addedProduct.price}</div>
-				<div><span style={style.label}>Quantity: </span>{addedProduct.quantity}</div>
-				<button onClick={ ()=>removeProductInCart(addedProduct.id, addedProduct.quantity) }>Remove</button>
+				<div><span style={style.label}>Name: </span>{itemName}</div>
+				<div><span style={style.label}>Price: $ </span>{price}</div>
+				<div>
+					<button 
+						onClick={ ()=> decreaseProductQuantity(id, quantity)}
+						style={style.productDetails.toggleQuanButton}
+					>-</button>
+					<span style={style.label}>Quantity: </span>
+					{quantity}
+					{
+						quantityRemaining === 0 ?
+							null :
+							<button 
+								onClick={ ()=> increaseProductQuantity(id, quantity)}
+								style={style.productDetails.toggleQuanButton}
+							>+</button>
+					}
+				</div>
+				<button 
+					onClick={ ()=>removeProductInCart(id, quantity) }
+					style={style.removeProductButton}
+				>
+					Remove
+				</button>
 			</div>
 		</div>
 	)
@@ -46,7 +88,9 @@ ProductInTheCart.PropTypes = {
 			quantityRemaining: PropTypes.number.isRequired,
 			quantity: PropTypes.number.isRequired
 		}),
-	removeProductInCart: PropTypes.func.isRequired
+	removeProductInCart: PropTypes.func.isRequired,
+	decreaseProductQuantity: PropTypes.func.isRequired,
+	increaseProductQuantity: PropTypes.func.isRequired
 }
 
 export default ProductInTheCart

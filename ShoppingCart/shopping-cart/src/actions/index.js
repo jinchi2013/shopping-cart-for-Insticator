@@ -23,10 +23,14 @@ const requestProducts = () => ({
 	type: actionTypes.REQUEST_PRODUCTS
 })
 
+/*
+Used for when request fail
+
 const requestProductsFail = error => ({
 	type: actionTypes.REQUEST_PRODUCTS_FAIL,
 	error: error
 }) 
+*/
 
 export const getAllProduct = () => dispatch => {
 
@@ -35,7 +39,7 @@ export const getAllProduct = () => dispatch => {
 	setTimeout(()=>{
 		const productsWithIds = addUUidToProducts(camelizeKeys(productsJson))
 		dispatch(receiveProducts(productsWithIds))
-	}, 100)
+	}, 1500)
 }
 
 /*
@@ -93,11 +97,9 @@ const decreaseProductQuantityAction = (productId, quantity) => ({
 	quantity
 })
 
-export const decreaseProductQuantity = (productId, quantity, remainQuantity) => (dispatch, getState) => {
+export const decreaseProductQuantity = (productId, quantity) => (dispatch, getState) => {
 	if(quantity === 1) {
 		dispatch(removeProductInCart(productId, quantity))
-	} else if(remainQuantity === 0){
-		dispatch(noRemainingNotice())
 	} else {
 		dispatch(decreaseProductQuantityAction(productId, quantity))
 	}
