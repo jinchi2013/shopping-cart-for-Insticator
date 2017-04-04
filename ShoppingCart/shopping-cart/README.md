@@ -1,4 +1,5 @@
-# Please review the test at break point between 414px - 550px. I only implemented the style in that pix period. 
+# Please review the sample at break point between 414px - 550px. 
+I only implemented the style in that pix period. 
 
 # npm install to get all the dependencys
 
