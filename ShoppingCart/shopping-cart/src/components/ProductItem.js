@@ -3,6 +3,8 @@ import React, { PropTypes } from 'react'
 import Item from './Item'
 import ItemAction from './ItemAction'
 
+import enhanceWithPure from '../HOCs/enhanceWithPure'
+
 const ProductItem = ({product, addToCart}) => {
 	const style={
 		padding: 10
@@ -43,4 +45,4 @@ ProductItem.PropTypes = {
 	addToCart: PropTypes.func.isRequired
 }
 
-export default ProductItem
+export default enhanceWithPure()(ProductItem)
