@@ -1,1 +1,1 @@
-# shopping-cart-for-Insticator
+# shopping-cart-sample
